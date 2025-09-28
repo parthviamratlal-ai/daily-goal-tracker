@@ -1,0 +1,995 @@
+/* style.css - Consolidated Styles for the entire Magic Quest App */
+
+/* Root Variables */
+:root {
+    --primary-gradient: linear-gradient(135deg, #a8c0ff, #3f2b96); /* Blue to dark purple */
+    --card-bg-light: rgba(255, 255, 255, 0.6);
+    --card-bg-dark: rgba(255, 255, 255, 0.1);
+    --text-color-light: #333;
+    --text-color-dark: #fff;
+    --border-radius-large: 24px;
+    --border-radius-medium: 16px;
+    --border-radius-small: 8px;
+    --font-family: 'Poppins', sans-serif;
+    --progress-gradient: linear-gradient(45deg, #a8c0ff, #ed77ff); /* Colorful progress bar */
+    --nav-item-active: linear-gradient(45deg, #ff9a9e, #fad0c4); /* Pink/peach for active nav */
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+
+    /* Theme-specific variables (default to light mode) */
+    --body-bg-start: #e0c3fc; /* Light purple */
+    --body-bg-end: #8ec5fc;   /* Light blue */
+    --header-bg: rgba(255, 255, 255, 0.1);
+    --header-text-color: #fff;
+    --main-text-color: #333;
+    --secondary-text-color: #666;
+    --accent-color-1: #3f2b96; /* Darker blue/purple */
+    --accent-color-2: #8ec5fc; /* Lighter blue */
+    --input-bg: rgba(255, 255, 255, 0.8);
+    --input-border: rgba(0, 0, 0, 0.1);
+    --toggle-off-bg: #ccc;
+    --toggle-on-bg: linear-gradient(45deg, #a8c0ff, #ed77ff);
+    --active-radio-bg: linear-gradient(45deg, #a8c0ff, #ed77ff);
+    --active-radio-border-color: transparent;
+    --active-radio-text-color: #fff;
+    --active-radio-shadow: 0 4px 10px rgba(175, 140, 255, 0.4);
+    --slider-track-bg: #ccc;
+    --slider-thumb-bg: #8ec5fc; /* Accent blue */
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --body-bg-start: #2c3e50; /* Darker blue */
+    --body-bg-end: #34495e;   /* Darker grey-blue */
+    --card-bg-light: rgba(0, 0, 0, 0.4);
+    --card-bg-dark: rgba(0, 0, 0, 0.2);
+    --text-color-light: #f5f5f5;
+    --text-color-dark: #eee;
+    --header-bg: rgba(0, 0, 0, 0.2);
+    --header-text-color: #eee;
+    --main-text-color: #f5f5f5;
+    --secondary-text-color: #ccc;
+    --accent-color-1: #957dad; /* Lighter purple */
+    --accent-color-2: #a8c0ff; /* Light blue */
+    --input-bg: rgba(0, 0, 0, 0.6);
+    --input-border: rgba(255, 255, 255, 0.1);
+    --toggle-off-bg: #555;
+    --toggle-on-bg: linear-gradient(45deg, #6c5ce7, #a29bfe);
+    --active-radio-bg: linear-gradient(45deg, #6c5ce7, #a29bfe);
+    --active-radio-border-color: rgba(255, 255, 255, 0.2);
+    --active-radio-text-color: #fff;
+    --active-radio-shadow: 0 4px 10px rgba(108, 92, 231, 0.4);
+    --slider-track-bg: #555;
+    --slider-thumb-bg: #a29bfe; /* Lighter purple */
+    --nav-item-active: linear-gradient(45deg, #5c52b0, #7a6ad4); /* Darker active nav */
+}
+
+
+/* Base Styles */
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background: linear-gradient(135deg, var(--body-bg-start) 0%, var(--body-bg-end) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--main-text-color);
+    overflow: hidden;
+    position: relative;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth theme transition */
+}
+
+/* Magical background effects */
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0.5;
+    animation: floatingBubbles 15s infinite ease-in-out;
+    z-index: 1; /* Ensure these are behind the app container */
+}
+
+body::before {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+body::after {
+    width: 150px;
+    height: 150px;
+    bottom: 5%;
+    right: 20%;
+    animation-delay: 7s;
+}
+
+body.dark-mode::before,
+body.dark-mode::after {
+    background: radial-gradient(circle at center, rgba(100, 100, 150, 0.3) 0%, transparent 70%); /* Darker bubbles */
+}
+
+
+@keyframes floatingBubbles {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50% { transform: translate(20px, 30px) scale(1.1); opacity: 0.7; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+}
+
+
+.app-container {
+    width: 100%;
+    max-width: 375px; /* Typical mobile width */
+    height: 100vh;
+    max-height: 812px; /* Typical mobile height (iPhone X) */
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background for the app frame */
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Ensure content stays within the app frame */
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    border: var(--glass-border);
+    position: relative;
+    z-index: 10; /* Ensure app is above background effects */
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+body.dark-mode .app-container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: var(--header-text-color);
+    background: var(--header-bg);
+    backdrop-filter: blur(5px);
+    border-bottom: var(--glass-border);
+    border-top-left-radius: var(--border-radius-large);
+    border-top-right-radius: var(--border-radius-large);
+    transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.app-header .material-symbols-rounded {
+    font-size: 28px;
+    color: var(--header-text-color);
+    cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-decoration: none; /* For back arrow link */
+}
+
+.app-header .header-title h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--header-text-color);
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.card {
+    background: var(--card-bg-light);
+    border-radius: var(--border-radius-medium);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-light);
+    backdrop-filter: blur(8px);
+    border: var(--glass-border);
+    color: var(--main-text-color);
+    animation: fadeIn 0.5s ease-out;
+    transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode .card {
+    background: var(--card-bg-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Home Screen Specific Styles */
+.greeting-card {
+    text-align: left;
+}
+
+.greeting-card .greeting-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    color: var(--accent-color-1); /* Darker accent for name */
+}
+
+.greeting-card .date-text {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 0.5rem;
+}
+
+.greeting-card .magic-phrase {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent-color-2); /* Lighter accent for phrase */
+}
+
+.progress-card h3,
+.quests-card h3,
+.weekly-arcana-card h3,
+.achievements-card h3,
+.settings-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--main-text-color);
+}
+
+.progress-circle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-circle svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg); /* Start progress from top */
+}
+
+.progress-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.4);
+    stroke-width: 12px;
+    transition: stroke 0.5s ease;
+}
+body.dark-mode .progress-bg {
+    stroke: rgba(0, 0, 0, 0.4);
+}
+
+.progress-bar {
+    fill: none;
+    /* stroke: url(#progressGradient); Handled by JS or inline style */
+    stroke-width: 12px;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+.progress-percentage {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-color-1);
+    transition: color 0.5s ease;
+}
+
+.progress-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.legend-health { background: linear-gradient(45deg, #ff6b6b, #ee4c7d); } /* Red/Pink */
+.legend-career { background: linear-gradient(45deg, #f7d794, #f0c27d); } /* Gold/Orange */
+.legend-hobby { background: linear-gradient(45deg, #a8c0ff, #3f2b96); } /* Blue/Purple */
+
+
+.quest-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quest-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: var(--main-text-color);
+    cursor: pointer;
+    transition: border-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark-mode .quest-item {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.quest-item:last-child {
+    border-bottom: none;
+}
+
+.quest-item .material-symbols-rounded {
+    font-size: 24px;
+    margin-right: 12px;
+    color: var(--accent-color-2); /* Default icon color */
+    transition: color 0.3s ease;
+}
+
+.quest-item.completed .check-icon {
+    color: #7bed9f; /* Green for completed checkmark */
+}
+
+.quest-item p {
+    flex-grow: 1;
+    margin: 0;
+}
+
+.quest-item .quest-status {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.quest-item.completed .quest-status {
+    color: #7bed9f; /* Green for completed status */
+}
+
+.quest-item.no-quests-message {
+    justify-content: center;
+    color: var(--secondary-text-color);
+    font-style: italic;
+    border-bottom: none;
+}
+
+/* Add Quest Screen Specific Styles */
+.add-quest-screen .app-header {
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.add-quest-screen .app-header .header-left a {
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.add-quest-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.quest-image-section {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.quest-illustration {
+    width: 150px;
+    height: auto;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-light);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-group label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--main-text-color);
+}
+
+input[type="text"] {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius-small);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    background: var(--input-bg);
+    color: var(--main-text-color);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder {
+    color: var(--secondary-text-color);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color-2);
+    box-shadow: 0 0 0 3px rgba(142, 197, 252, 0.3);
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+.radio-group .radio-label {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius-medium);
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+}
+
+.radio-group input[type="radio"]:checked + .radio-label {
+    background: var(--active-radio-bg);
+    border-color: var(--active-radio-border-color);
+    color: var(--active-radio-text-color);
+    box-shadow: var(--active-radio-shadow);
+}
+
+.radio-group .radio-label .material-symbols-rounded {
+    font-size: 20px;
+}
+
+.radio-group input[type="radio"]:checked + .radio-label .material-symbols-rounded {
+    color: #fff;
+}
+
+/* Specific colors for Type of Magic icons */
+.radio-group input[type="radio"][value="Health"] + .radio-label .material-symbols-rounded { color: #ff6b6b; }
+.radio-group input[type="radio"][value="Health"]:checked + .radio-label .material-symbols-rounded { color: #fff; }
+.radio-group input[type="radio"][value="Career"] + .radio-label .material-symbols-rounded { color: #f7d794; }
+.radio-group input[type="radio"][value="Career"]:checked + .radio-label .material-symbols-rounded { color: #fff; }
+.radio-group input[type="radio"][value="Hobby"] + .radio-label .material-symbols-rounded { color: #a8c0ff; }
+.radio-group input[type="radio"][value="Hobby"]:checked + .radio-label .material-symbols-rounded { color: #fff; }
+
+.reminder-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.reminder-group label:first-child {
+    flex-basis: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch .toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch .toggle-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--toggle-off-bg);
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-switch .toggle-label:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.toggle-input:checked + .toggle-label {
+    background-image: var(--toggle-on-bg);
+}
+
+.toggle-input:checked + .toggle-label:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.reminder-options {
+    display: flex;
+    gap: 0.5rem;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+.reminder-btn {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius-medium);
+    padding: 0.6rem 1rem;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+}
+
+.reminder-btn.active {
+    background: var(--active-radio-bg);
+    border-color: var(--active-radio-border-color);
+    color: var(--active-radio-text-color);
+    box-shadow: var(--active-radio-shadow);
+}
+
+.craft-quest-btn {
+    background: linear-gradient(45deg, #7bed9f, #2ecc71); /* Green button */
+    border: none;
+    border-radius: var(--border-radius-medium);
+    padding: 1rem 1.5rem;
+    font-family: var(--font-family);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(123, 237, 159, 0.4);
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.craft-quest-btn:hover {
+    box-shadow: 0 8px 20px rgba(123, 237, 159, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Summary Screen Specific Styles */
+.summary-screen .app-header {
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.summary-screen .app-header .header-left a {
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* Weekly Arcana Chart */
+.bar-chart-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 150px;
+    padding: 0 10px;
+    gap: 10px;
+}
+
+.bar-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    flex-grow: 1;
+    max-width: 40px;
+}
+
+.bar {
+    width: 80%;
+    background: linear-gradient(to top, var(--body-bg-end), var(--body-bg-start)); /* Blueish gradient for bars */
+    border-radius: var(--border-radius-small);
+    transition: height 0.5s ease-out, background 0.5s ease;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 8px rgba(142, 197, 252, 0.3);
+}
+body.dark-mode .bar {
+    background: linear-gradient(to top, #6c5ce7, #a29bfe);
+    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+}
+
+.bar-column .day {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+    font-weight: 500;
+    transition: color 0.5s ease;
+}
+
+/* Achievements */
+.achievement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    background: var(--input-bg);
+    border-radius: var(--border-radius-medium);
+    padding: 1rem;
+    box-shadow: var(--shadow-light);
+    border: var(--glass-border);
+    transition: transform 0.2s ease-in-out, background 0.5s ease, border-color 0.5s ease;
+}
+
+.achievement-item:hover {
+    transform: translateY(-3px);
+}
+
+.achievement-item .material-symbols-rounded {
+    font-size: 32px;
+    margin-right: 15px;
+    /* Use transparent text and background clip for gradient icons */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: color 0.5s ease;
+}
+
+.achievement-item .icon-chest { background: linear-gradient(45deg, #f0c27d, #f7d794); }
+.achievement-item .icon-sparkle { background: linear-gradient(45deg, #ed77ff, #a8c0ff); }
+
+
+.achievement-details {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.achievement-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--main-text-color);
+}
+
+.achievement-count {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-color-1);
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--border-radius-small);
+    transition: background 0.5s ease, color 0.5s ease;
+}
+body.dark-mode .achievement-count {
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--accent-color-2);
+}
+
+.achievement-illustration {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 120px;
+    height: auto;
+    opacity: 0.7;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(10deg);
+}
+
+.achievement-illustration .illustration-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+
+
+/* Settings Screen Specific Styles */
+.settings-screen .app-header {
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.settings-screen .app-header .header-left a {
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.dark-mode .setting-item {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-item label, .setting-item p {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 1rem;
+    color: var(--main-text-color);
+}
+
+.setting-item .material-symbols-rounded {
+    font-size: 24px;
+    margin-right: 10px;
+    color: var(--accent-color-1);
+}
+
+.setting-item .icon-hat {
+    background: linear-gradient(45deg, #a8c0ff, #3f2b96); /* Blue/Purple for hat */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 15px;
+}
+
+.clickable-item {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.clickable-item:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+body.dark-mode .clickable-item:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.slider-item {
+    display: flex;
+    gap: 10px;
+}
+
+.slider {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    height: 8px;
+    background: var(--slider-track-bg);
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s, background-color 0.5s ease;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-bg);
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.5s ease;
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--slider-thumb-bg);
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.5s ease;
+}
+
+.theme-switch-group {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--input-bg);
+    border-radius: var(--border-radius-medium);
+    padding: 0.5rem;
+    box-shadow: var(--shadow-light);
+    border: var(--glass-border);
+}
+
+.theme-btn {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: var(--border-radius-small);
+    background-color: transparent;
+    color: var(--secondary-text-color);
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-btn.active {
+    background: linear-gradient(45deg, #a8c0ff, #ed77ff);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(175, 140, 255, 0.3);
+}
+
+body.dark-mode #darkModeBtn.active {
+    background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(108, 92, 231, 0.3);
+}
+body.dark-mode #lightModeBtn.active {
+    background: none;
+    color: var(--secondary-text-color);
+    box-shadow: none;
+}
+
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.75rem 0;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    border-top: var(--glass-border);
+    border-bottom-left-radius: var(--border-radius-large);
+    border-bottom-right-radius: var(--border-radius-large);
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+body.dark-mode .bottom-nav {
+    background: rgba(0, 0, 0, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--secondary-text-color);
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-medium);
+    transition: all 0.3s ease;
+}
+
+.nav-item .material-symbols-rounded {
+    font-size: 24px;
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+.nav-item.active {
+    background: var(--nav-item-active);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(255, 154, 158, 0.4);
+}
+
+.nav-item.active .material-symbols-rounded {
+    color: #fff;
+}
+
+/* Scrollbar styling for main content */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+body.dark-mode .main-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+body.dark-mode .main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+body.dark-mode .main-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    .app-container {
+        border-radius: 0;
+        height: 100vh;
+        max-height: unset;
+    }
+    .app-header, .bottom-nav {
+        border-radius: 0;
+    }
+    .radio-group {
+        flex-direction: column;
+    }
+    .reminder-options {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .reminder-btn {
+        width: 100%;
+    }
+    .bar-chart-container {
+        gap: 5px;
+        padding: 0 5px;
+    }
+    .bar-column {
+        max-width: 30px;
+    }
+    .achievement-item {
+        padding: 0.8rem;
+    }
+    .achievement-item .material-symbols-rounded {
+        font-size: 28px;
+        margin-right: 10px;
+    }
+}
